@@ -51,9 +51,51 @@ const registerUser = async(req,res)=>{
 }
 
 const loginUser = async (req,res)=>{
-    res.status(200).json({
-        msg:"Login User"
-    })
+
+    const {email,password}= req.body;
+    if(!email || !password){
+        res.status(400).json({
+            msg:"fill all the credentials"
+        })
+    }
+    try{
+        const user = await userModel.findOne({email});
+        if(user){
+            const passwordCheck = await bcrypt.compare(password, user.password);
+            if(passwordCheck){
+                res.status(200).json({
+                    _id:user.id,
+                    name: user.name,
+                    email: user.email
+                })
+
+            }else{
+                res.status(400).json({
+                
+                    msg:"wrong password"
+                })
+            }
+            
+        }else{
+            res.status(400).json({
+                
+                msg:"There is no user with this email"
+            })
+        }
+
+    }catch(err){
+        res.status(400).json({
+            msg:"please check required field"
+        })
+
+    }
+    
+
+
+    
+
+    
+  
 }
 module.exports ={
     registerUser,
