@@ -4,15 +4,15 @@ const { getTodo,
     addTodo,
     updateTodo,
     deleteToDo} = require("../controllers/todos.controller")
+const {privateRoute} = require("../middlewares/authMiddlewares")
 
+router.get("/",privateRoute, getTodo);
 
-router.get("/", getTodo);
+router.post("/",privateRoute,addTodo);
 
-router.post("/",addTodo);
+router.put("/:id", privateRoute,updateTodo)
 
-router.put("/:id", updateTodo)
-
-router.delete("/:id", deleteToDo)
+router.delete("/:id", privateRoute,deleteToDo)
 
 
 
