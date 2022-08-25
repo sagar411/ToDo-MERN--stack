@@ -1,5 +1,6 @@
 const userModel = require("../models/userModel");
 const bcrypt = require("bcryptjs"); 
+const {generateToken} = require("../utils/generateToken")
 
 const registerUser = async(req,res)=>{
     const {name,email,password}= req.body;
@@ -34,7 +35,9 @@ const registerUser = async(req,res)=>{
                 res.status(201).json({
                     _id:userCreate.id,
                     name: userCreate.name,
-                    email: userCreate.email
+                    email: userCreate.email,
+                    token:generateToken(userCreate.id,userCreate.name),
+
                 });
             }else(
                 res.status(400).json({
@@ -63,11 +66,12 @@ const loginUser = async (req,res)=>{
         if(user){
             const passwordCheck = await bcrypt.compare(password, user.password);
             if(passwordCheck){
-                res.status(200).json({
+                res.status(201).json({
                     _id:user.id,
                     name: user.name,
-                    email: user.email
-                })
+                    email: user.email,
+                    token:generateToken(user.id,user.name),
+                });
 
             }else{
                 res.status(400).json({
