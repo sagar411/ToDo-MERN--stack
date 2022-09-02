@@ -12,7 +12,7 @@ const User = require("../models/userModel");
     // }
     try{
         const todos = await ToDo.find({user:req.user.id});
-        res.status(200).json({todos});
+        res.status(200).json(todos);
     }catch(error){
 
         res.status(404).json({

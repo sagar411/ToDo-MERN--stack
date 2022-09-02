@@ -7,7 +7,7 @@ const registerUser = async(req,res)=>{
 
     if(!name|| !email|| !password){
         res.status(400).json({
-            msg:"please check the required fields"
+            message:"please check the required fields"
         })
     }
 
@@ -17,7 +17,7 @@ const registerUser = async(req,res)=>{
         
         if(userCheck){
             res.status(400).json({
-                msg:"this email already exist"
+                message:"this email already exist"
             })
         }
         //hash the password 
@@ -41,14 +41,14 @@ const registerUser = async(req,res)=>{
                 });
             }else(
                 res.status(400).json({
-                    msg:"Invalid user data"
+                    message:"Invalid user data"
                 })
 
             )
 
     }catch(err){
         res.status(400).json({
-            msg:err    
+            message:"problem in user create"    
         })
     }
 }
@@ -76,20 +76,20 @@ const loginUser = async (req,res)=>{
             }else{
                 res.status(400).json({
                 
-                    msg:"wrong password"
+                    message:"wrong password"
                 })
             }
             
         }else{
             res.status(400).json({
                 
-                msg:"There is no user with this email"
+                message:"There is no user with this email"
             })
         }
 
     }catch(err){
         res.status(400).json({
-            msg:"please check required field"
+            message:"please check required field"
         })
 
     }
